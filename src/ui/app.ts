@@ -10,7 +10,9 @@ import { createActionBar, createActions } from './actions';
 import { loadAutosave, startAutosave } from './autosave';
 import { Derived } from './derived';
 import { h, setAttr } from './dom';
+import { createExportPanel, createOpenButton } from './export-panel';
 import { createFigureSettings } from './figure-settings';
+import { createImportButton } from './import-dialog';
 import { createPalette } from './palette';
 import { bindShortcuts } from './shortcuts';
 import { toast } from './toasts';
@@ -94,10 +96,12 @@ export function createApp(root: HTMLElement): void {
     { class: 'file-actions' },
     h('button', { type: 'button', class: 'btn', onclick: () => replace(() => emptyProject(), 'Figura nueva.') }, 'Nueva'),
     h('button', { type: 'button', class: 'btn', onclick: () => replace(sampleProject, 'Ejemplo cargado.') }, 'Ejemplo'),
+    createOpenButton(store),
+    createImportButton(store, session),
   );
   const header = h('header', { class: 'app-head' }, h('h1', {}, 'Pixelada'), name, saved, h('div', { class: 'spacer' }), fileActions);
 
-  const sidebar = h('aside', { class: 'sidebar', 'aria-label': 'Ajustes' }, ...createFigureSettings(store));
+  const sidebar = h('aside', { class: 'sidebar', 'aria-label': 'Ajustes' }, createExportPanel(store, derived), ...createFigureSettings(store));
   root.append(
     header,
     h(

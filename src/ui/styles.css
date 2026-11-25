@@ -549,6 +549,83 @@ fieldset.plain {
   font-size: 13px;
 }
 
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.button-grid .btn {
+  padding: 4px 6px;
+}
+
+.button-grid .btn:nth-child(-n + 2) {
+  grid-column: 1 / -1;
+}
+
+/* Diálogos */
+.dialog {
+  color: var(--text);
+  background: var(--panel);
+  border: 2px solid var(--ember);
+  border-radius: 4px;
+  width: min(460px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 16px;
+}
+
+.dialog::backdrop {
+  background: rgb(10 5 8 / 0.75);
+}
+
+.dialog form,
+.dialog-body {
+  display: grid;
+  gap: 12px;
+}
+
+.dialog h2 {
+  font-size: 18px;
+}
+
+.dialog fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 18px;
+  border: 2px solid var(--edge);
+  border-radius: 3px;
+  margin: 0;
+  padding: 0 10px 2px;
+}
+
+.previews {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.previews figure {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.preview {
+  width: 100%;
+  height: 190px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background: var(--bg);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 /* Mensajes */
 .toasts {
   position: fixed;
