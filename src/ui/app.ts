@@ -8,18 +8,21 @@ import { Store } from '../model/store';
 import { LIMITS, emptyProject, type Face } from '../model/types';
 import { createActionBar, createActions } from './actions';
 import { loadAutosave, startAutosave } from './autosave';
+import { Derived } from './derived';
 import { h, setAttr } from './dom';
 import { createFigureSettings } from './figure-settings';
 import { createPalette } from './palette';
 import { bindShortcuts } from './shortcuts';
 import { toast } from './toasts';
 import { createToolbar } from './toolbar';
+import { createView3dPanel } from './view3d-panel';
 
 const TAB_LABEL: Record<Tab, string> = { front: 'Frente', back: 'Espalda', '3d': 'Vista 3D' };
 
 export function createApp(root: HTMLElement): void {
   const store = new Store(loadAutosave() ?? sampleProject());
   const session = new Session();
+  const derived = new Derived(store);
   const panels = {} as Record<Face, FacePanel>;
 
   const isNarrow = window.matchMedia('(max-width: 759px)');
@@ -69,7 +72,7 @@ export function createApp(root: HTMLElement): void {
 
   const front = buildFace('front');
   const back = buildFace('back');
-  const view3d = h('section', { class: 'panel', 'data-tab': '3d', 'aria-label': TAB_LABEL['3d'] });
+  const view3d = createView3dPanel(derived);
   const panelEls = [front, back, view3d];
 
   const tabs = (['front', 'back', '3d'] as const).map((tab) =>
@@ -120,6 +123,13 @@ export function createApp(root: HTMLElement): void {
   store.subscribe(sync);
   session.subscribe(sync);
   sync();
+
+  const syncTabWarnings = (): void => {
+    const n = derived.shown.analysis.notices.filter((x) => x.level === 'warn').length;
+    tabs[2].textContent = n ? `${TAB_LABEL['3d']} ⚠ ${n}` : TAB_LABEL['3d'];
+  };
+  derived.subscribe(syncTabWarnings);
+  syncTabWarnings();
 
   bindShortcuts(store, session, actions);
   startAutosave(store, (ok) => {

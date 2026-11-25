@@ -10,6 +10,7 @@ for (const s of SIZES) {
   test(`capturas ${s.name}`, async ({ page }) => {
     await page.setViewportSize(s);
     await open(page);
+    await expect(page.locator('.view-canvas')).toBeAttached();
     await page.waitForTimeout(700);
     if (s.name === 'movil') {
       for (const tab of ['Frente', 'Espalda', 'Vista 3D']) {
