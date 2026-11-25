@@ -12,6 +12,7 @@ import { Derived } from './derived';
 import { h, setAttr } from './dom';
 import { createExportPanel, createOpenButton } from './export-panel';
 import { createFigureSettings } from './figure-settings';
+import { createHelpButton } from './help';
 import { createImportButton } from './import-dialog';
 import { createPalette } from './palette';
 import { bindShortcuts } from './shortcuts';
@@ -98,6 +99,7 @@ export function createApp(root: HTMLElement): void {
     h('button', { type: 'button', class: 'btn', onclick: () => replace(sampleProject, 'Ejemplo cargado.') }, 'Ejemplo'),
     createOpenButton(store),
     createImportButton(store, session),
+    createHelpButton(),
   );
   const header = h('header', { class: 'app-head' }, h('h1', {}, 'Pixelada'), name, saved, h('div', { class: 'spacer' }), fileActions);
 

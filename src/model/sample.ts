@@ -84,5 +84,11 @@ function layer(rows: readonly string[]): Uint8Array {
 
 export function sampleProject(): Project {
   const p = emptyProject(24, 32, 'Caballero');
-  return { ...p, palette: DEFAULT_PALETTE, front: layer(FRONT), back: layer(BACK) };
+  return {
+    ...p,
+    palette: DEFAULT_PALETTE,
+    front: layer(FRONT),
+    back: layer(BACK),
+    base: { ...p.base, color: '#6b6470' },
+  };
 }

@@ -629,6 +629,22 @@ fieldset.plain {
   background: var(--bg);
 }
 
+.keys {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  margin: 0;
+}
+
+.keys dt {
+  font-weight: 650;
+  color: var(--ember);
+}
+
+.keys dd {
+  margin: 0;
+}
+
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
@@ -703,6 +719,14 @@ fieldset.plain {
   .workspace {
     display: flex;
     flex-direction: column;
+  }
+
+  .app-head {
+    padding: 12px 12px 8px;
+  }
+
+  .help {
+    display: none;
   }
 
   .tabs {

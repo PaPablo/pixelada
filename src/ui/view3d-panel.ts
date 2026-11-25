@@ -43,8 +43,8 @@ export function createView3dPanel(store: Store, session: Session, derived: Deriv
   };
   session.subscribe(syncPaint);
   syncPaint();
-  const rotate = h('button', { type: 'button', class: 'btn small', disabled: true, 'aria-pressed': 'false',
-    onclick: () => scene?.setAutoRotate(!scene.autoRotate) }, 'Giro automático');
+  const rotate = h('button', { type: 'button', 'aria-label': 'Giro automático', class: 'btn small', disabled: true, 'aria-pressed': 'false',
+    onclick: () => scene?.setAutoRotate(!scene.autoRotate) }, 'Giro');
   const syncMotion = (): void => {
     if (reduced.matches) scene?.setAutoRotate(false);
     rotate.disabled = !scene || reduced.matches;

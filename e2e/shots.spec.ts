@@ -23,6 +23,12 @@ for (const s of SIZES) {
       await page.screenshot({ path: `e2e/shots/${s.name}.png` });
       await page.screenshot({ path: `e2e/shots/${s.name}-completa.png`, fullPage: true });
     }
+    if (s.name !== 'movil') {
+      await page.getByRole('button', { name: 'Atajos' }).click();
+      await page.screenshot({ path: `e2e/shots/${s.name}-atajos.png` });
+      expect(await touchTargets(page.locator('dialog[open]'))).toEqual([]);
+      await page.keyboard.press('Escape');
+    }
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow).toBeLessThanOrEqual(0);
     expect(await touchTargets(page.locator('#app'))).toEqual([]);
