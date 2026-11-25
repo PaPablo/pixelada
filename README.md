@@ -100,3 +100,7 @@ src/view3d/    escena, cámara y pintura 3D
 src/ui/        interfaz
 tests/  e2e/   pruebas
 ```
+
+## Licencia
+
+[MIT](LICENSE).
