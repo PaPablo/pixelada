@@ -1,4 +1,5 @@
 /** Dibujo de un panel 2D en su lienzo. */
+import { hexToRgb } from '../model/color';
 import { effectiveLayer, mirrorLayer, otherFace, viewLayer, type Cell } from '../model/faces';
 import type { Face, Project } from '../model/types';
 import type { Viewport } from './viewport';
@@ -14,11 +15,6 @@ const CHECK: readonly [number, number, number][] = [
   [58, 45, 56],
   [48, 37, 47],
 ];
-
-export function hexToRgb(hex: string): [number, number, number] {
-  const n = parseInt(hex.slice(1), 16);
-  return [n >> 16, (n >> 8) & 255, n & 255];
-}
 
 export class PanelRenderer {
   private readonly ctx: CanvasRenderingContext2D;
