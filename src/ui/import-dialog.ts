@@ -83,10 +83,9 @@ export function createImportButton(store: Store, session: Session): HTMLElement 
     drawFace(back, p, 'back');
   };
   form.addEventListener('change', preview);
-  dialog.addEventListener('close', () => {
+  form.addEventListener('submit', (e) => {
     const img = image;
-    image = null;
-    if (!img || dialog.returnValue !== 'ok') return;
+    if (!img || (e.submitter as HTMLButtonElement | null)?.value !== 'ok') return;
     const o = options();
     if (store.apply((p) => importImage(p, img, o))) {
       toast('Imagen importada.', { label: 'Deshacer', run: () => store.undo() });
@@ -105,7 +104,6 @@ export function createImportButton(store: Store, session: Session): HTMLElement 
     }
     check('target', defaultTarget(store.project, session.state.face));
     check('palette', 'new');
-    dialog.returnValue = '';
     preview();
     dialog.showModal();
   } });

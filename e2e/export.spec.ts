@@ -147,6 +147,32 @@ test('importar solo a la espalda con la paleta actual; cancelar no hace nada', a
   expect(on(s.front)).toEqual(['0,0']);
 });
 
+test('un cierre tardío del diálogo anterior no anula la imagen nueva', async ({ page }) => {
+  await page.addInitScript(() => {
+    document.addEventListener(
+      'close',
+      (e) => {
+        if (!e.isTrusted) return;
+        e.stopImmediatePropagation();
+        const { target } = e;
+        setTimeout(() => target?.dispatchEvent(new Event('close')), 800);
+      },
+      true,
+    );
+  });
+  await open(page, blank());
+  const buffer = await makePng(page, 2, 1, [[0, 0, '#123456'], [1, 0, '#fedcba']]);
+  const file = { name: 'a.png', mimeType: 'image/png', buffer };
+  const dialog = page.locator('dialog[open]');
+  await page.locator('input[type=file][accept*=png]').setInputFiles(file);
+  await dialog.getByRole('button', { name: 'Cancelar' }).click();
+  await page.locator('input[type=file][accept*=png]').setInputFiles(file);
+  await expect(dialog).toBeVisible();
+  await page.waitForTimeout(1200);
+  await dialog.getByRole('button', { name: 'Importar' }).click();
+  expect(on((await saved(page)).front).length).toBe(128);
+});
+
 test('un archivo que no es imagen avisa', async ({ page }) => {
   await open(page, blank());
   await page.locator('input[type=file][accept*=png]').setInputFiles({ name: 'a.png', mimeType: 'image/png', buffer: Buffer.from('nada') });
