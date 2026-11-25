@@ -32,6 +32,19 @@ test('pinta el frente con el ratón, sin huecos y en un solo paso', async ({ pag
   expect((await saved(page)).front.every((v) => v === 1)).toBe(true);
 });
 
+test('con la carga lenta, pintar no se habilita hasta que funciona', async ({ page }) => {
+  await page.route('**/view3d/paint3d*', async (route) => {
+    await new Promise((r) => setTimeout(r, 2500));
+    await route.continue();
+  });
+  await open(page, full());
+  await ready(page, 'Frente');
+  await page.getByRole('button', { name: 'Color 3' }).click();
+  const c = await center(page);
+  await page.mouse.click(c.x, c.y);
+  expect((await saved(page)).front.filter((v) => v === 3).length).toBe(1);
+});
+
 test('por detrás pinta la espalda, en el lado que se ve', async ({ page }) => {
   await open(page, full());
   await ready(page, 'Atrás');

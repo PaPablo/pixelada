@@ -82,8 +82,10 @@ export function createView3dPanel(store: Store, session: Session, derived: Deriv
 
   void (async () => {
     try {
-      const { Scene3D: Ctor } = await import('../view3d/scene');
+      // Los dos módulos antes de habilitar nada: si no, un primer trazo rápido giraría en vez de pintar.
+      const [{ Scene3D: Ctor }, { bindPaint3d }] = await Promise.all([import('../view3d/scene'), import('../view3d/paint3d')]);
       scene = new Ctor(stage);
+      bindPaint3d(scene, store, session, derived);
     } catch {
       stage.append(
         h('p', { class: 'no-webgl', role: 'alert' },
@@ -96,8 +98,6 @@ export function createView3dPanel(store: Store, session: Session, derived: Deriv
     paint.disabled = false;
     syncMotion();
     update();
-    const { bindPaint3d } = await import('../view3d/paint3d');
-    bindPaint3d(scene, store, session, derived);
   })();
 
   return h(
