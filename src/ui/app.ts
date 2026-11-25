@@ -74,7 +74,7 @@ export function createApp(root: HTMLElement): void {
 
   const front = buildFace('front');
   const back = buildFace('back');
-  const view3d = createView3dPanel(derived);
+  const view3d = createView3dPanel(store, session, derived);
   const panelEls = [front, back, view3d];
 
   const tabs = (['front', 'back', '3d'] as const).map((tab) =>

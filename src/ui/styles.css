@@ -332,21 +332,30 @@ input[type='range'] {
   cursor: grabbing;
 }
 
+.view-canvas.painting {
+  cursor: crosshair;
+}
+
 .view-bar {
-  position: absolute;
-  inset: auto 0 8px;
-  z-index: 1;
   display: flex;
   justify-content: center;
   gap: 4px;
+  padding: 6px;
+  border-top: 2px solid var(--edge);
+}
+
+.stage-hint {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 13px;
+  background: rgb(15 9 13 / 0.72);
   pointer-events: none;
 }
 
-.view-bar .btn {
-  pointer-events: auto;
-}
-
-.stage-3d:has(.no-webgl) .view-bar {
+.stage-hint[hidden] {
   display: none;
 }
 

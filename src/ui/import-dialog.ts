@@ -59,7 +59,7 @@ export function createImportButton(store: Store, session: Session): HTMLElement 
     h('label', { class: 'check' }, smooth, 'Suavizar'),
     h('div', { class: 'dialog-actions' },
       h('button', { type: 'submit', class: 'btn', value: 'cancel', formnovalidate: true }, 'Cancelar'),
-      h('button', { type: 'submit', class: 'btn accent', value: 'ok' }, 'Importar'),
+      h('button', { type: 'submit', class: 'btn accent', value: 'ok', autofocus: true }, 'Importar'),
     ),
   );
   dialog.append(form);
